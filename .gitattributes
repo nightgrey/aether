@@ -1,2 +1,0 @@
-public/rmbg/model.onnx filter=lfs diff=lfs merge=lfs -text
-public/rmbg/model_quantized.onnx filter=lfs diff=lfs merge=lfs -text
