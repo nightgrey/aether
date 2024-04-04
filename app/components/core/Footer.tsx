@@ -14,13 +14,13 @@ const DEFAULT_LINKS: Array<React.ComponentProps<typeof Link>> = [
   }, */
   {
     title: 'x.com/nightgrey_',
-    to: 'x.com/nightgrey_',
+    to: 'https://x.com/nightgrey_',
     children: '𝕏',
     className: 'text-2xl font-semibold leading-none',
   },
   {
     title: 'github.com/nightgrey/aether',
-    to: 'github.com/nightgrey/aether',
+    to: 'https://github.com/nightgrey/aether',
     children: <Github />,
   },
 ];
