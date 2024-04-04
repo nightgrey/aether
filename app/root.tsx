@@ -8,6 +8,7 @@ import { BackgroundRemoval } from '~features/backgroundRemoval';
 import { Toaster } from '~core/ui/sonner';
 import { env } from '~shared/env';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export const links: LinksFunction = () => [...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : [])];
 
@@ -52,33 +53,6 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const HydrateFallback = () => {
-  return (
-    <html className="dark" lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body className="bg-black text-white">
-        <Layout>
-          <BackgroundRemoval />
-        </Layout>
-        <ScrollRestoration />
-        <Scripts />
-        <Toaster />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(env)}`,
-          }}
-        />
-        <Analytics />
-      </body>
-    </html>
-  );
-};
-
 const App = () => {
   return (
     <html className="dark" lang="en">
@@ -95,16 +69,13 @@ const App = () => {
         <ScrollRestoration />
         <Scripts />
         <Toaster />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify({
-              URL: env.URL,
-            })}`,
-          }}
-        />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
 };
+
+export const HydrateFallback = App;
 
 export default App;
