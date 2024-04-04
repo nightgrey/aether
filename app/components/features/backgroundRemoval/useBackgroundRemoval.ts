@@ -8,23 +8,14 @@ import {
   type LabelAriaProps,
 } from 'react-aria';
 import { useFile } from '../../shared/useFile';
-import { MODEL_SIZE, useRembg } from '~features/rembg';
-import {
-  blobToImageElement,
-  fileToBuffer,
-  bufferToFile,
-  blobToFile,
-  uint8ToImageData,
-  uint8ToFile,
-} from '~shared/image';
+import { useRembg } from '~features/rembg';
+
 import { mergeProps, useLabels, useSlotId } from '@react-aria/utils';
 import { dataAttr } from '~shared/utils';
 import { toast } from 'sonner';
 import { createContext } from '~shared/createContext';
 import type React from 'react';
 import { useCallback } from 'react';
-import reduce from 'image-blob-reduce';
-import Pica from 'pica';
 const jpg = 'image/jpeg';
 const png = 'image/png';
 

@@ -3,7 +3,7 @@ import { cn } from '~core/ui/utils';
 import { Separator } from '~core/ui/separator';
 import { Link } from '~core/ui/link';
 import { Container } from './ui/container';
-import { Github, CircleHelp } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 const DEFAULT_LINKS: Array<React.ComponentProps<typeof Link>> = [
   /*   {
