@@ -11,6 +11,7 @@ import { normalize, maskToRgba, resize } from './normalize';
 
 // https://huggingface.co/docs/transformers.js/en/custom_usage#settings
 env.allowLocalModels = false;
+env.backends.onnx.wasm.proxy = true;
 
 /** RMBG-1.4 expects tensor/image sizes of 1024 * 1024. */
 export const MODEL_SIZE = {
