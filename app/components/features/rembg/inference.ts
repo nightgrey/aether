@@ -3,12 +3,14 @@ import {
   type ImageFeatureExtractor,
   RawImage,
   SegformerForSemanticSegmentation,
+  env,
   type Tensor,
 } from '@xenova/transformers';
 import { IS_CLIENT } from '~shared/env';
 import { normalize, maskToRgba, resize } from './normalize';
 
 // https://huggingface.co/docs/transformers.js/en/custom_usage#settings
+env.allowLocalModels = false;
 
 /** RMBG-1.4 expects tensor/image sizes of 1024 * 1024. */
 export const MODEL_SIZE = {
