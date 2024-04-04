@@ -15,21 +15,22 @@ export const Bar = React.forwardRef<React.ElementRef<'div'>, BarProps>(({ classN
     actions: { triggerInputFile },
   } = useBackgroundRemovalContext();
 
+  const shouldShowUploadButton = isEmpty || isFinished;
   return (
     <motion.div className={cn(' bg-grey-500 p-5 text-white', className)}>
       <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-10 sm:space-y-0">
         <div className="flex flex-row space-x-5">
           <Button
-            type={isEmpty ? 'button' : 'submit'}
+            type={shouldShowUploadButton ? 'button' : 'submit'}
             isDisabled={isInferencing}
             isLoading={isInferencing}
             onPress={(event) => {
-              if (isEmpty) {
+              if (shouldShowUploadButton) {
                 triggerInputFile();
               }
             }}
           >
-            {isEmpty ? 'Upload image' : 'Remove background'}
+            {shouldShowUploadButton ? 'Upload image' : 'Remove background'}
           </Button>
           <Button type="reset" variant="ghost" isDisabled={!isFinished || isInferencing}>
             <RotateCcw />

@@ -15,7 +15,6 @@ export const useRembg = () => {
     setIsInferencing(true);
 
     const result = await originalInference(input, await getImageDimensions(input), type);
-    console.log(result);
 
     if (result.error != null) {
       setError(result.error);

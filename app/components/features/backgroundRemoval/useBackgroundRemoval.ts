@@ -60,12 +60,14 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
     if (item) {
       const _file = await item.getFile();
       setUpload(_file);
+      setOutput(null);
     }
   };
 
   const { dropProps, dropButtonProps, isDropTarget } = useDrop({
     ref: buttonRef,
     getDropOperation: (types) => {
+      if (outputMeta.isInferencing) return 'cancel';
       const isValid = acceptedFileTypes.some((type) => types.has(type));
 
       if (!isValid) {
