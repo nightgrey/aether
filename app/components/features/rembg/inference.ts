@@ -1,6 +1,5 @@
 import {
   AutoProcessor,
-  env,
   type ImageFeatureExtractor,
   RawImage,
   SegformerForSemanticSegmentation,
@@ -10,11 +9,6 @@ import { IS_CLIENT } from '~shared/env';
 import { normalize, maskToRgba, resize } from './normalize';
 
 // https://huggingface.co/docs/transformers.js/en/custom_usage#settings
-env.allowRemoteModels = true;
-env.allowLocalModels = false;
-env.useFSCache = true;
-env.useBrowserCache = true;
-env.useFS = true;
 
 /** RMBG-1.4 expects tensor/image sizes of 1024 * 1024. */
 export const MODEL_SIZE = {
