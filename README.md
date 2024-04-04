@@ -10,6 +10,6 @@ Hey! This is Aether, a small web app that removes backgrounds from images with A
 * Tailwind CSS
 * Vercel
 
-... and some sweat.
+... and some sweat. Thanks to the authors of the libraries and tools used in this project!
 
 If you find issues, feel free to report them!
