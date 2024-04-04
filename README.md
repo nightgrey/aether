@@ -32,6 +32,7 @@ in this case, it didn't yet support `SegformerForSemanticSegmentation` in the im
 necessary for BRIA AI's RMBG-1.4 model. But! I still could use the right pre-processing manually, so I only had to do
 the post processing.
 
-As a plus, it now caches properly, works everywhere, and is even faster! Thanks to [xenova](https://github.com/xenova).
+As a plus, it now caches properly, works everywhere, and is even faster! Thanks to [xenova](https://github.com/xenova),
+who made `transformers.js` ❤️
 
 
