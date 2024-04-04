@@ -15,7 +15,8 @@ export const Empty = React.forwardRef<React.ElementRef<typeof motion.div>, Empty
     return (
       <motion.div className={cn('absolute', className)} {...rest} ref={ref}>
         <Button
-          className="pointer:hover:drop-shadow-glow-xl pointer:focus:drop-shadow-glow-xl p-10 outline-none drop-shadow-glow transition-all"
+          className="pointer:hover:drop-shadow-glow-xl pointer:focus:drop-shadow-glow-xl pointer:drop-shadow-glow-xl p-10 outline-none
+            drop-shadow-glow transition-all"
           {...inputFileTriggerProps}
           type="button"
         >
