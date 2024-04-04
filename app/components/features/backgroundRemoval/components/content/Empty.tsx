@@ -18,14 +18,14 @@ export const Empty = React.forwardRef<React.ElementRef<typeof motion.div>, Empty
           {...inputFileTriggerProps}
           type="button"
         >
-          <h1 className="text-7xl font-extrabold tracking-tight shadow-white outline-none">
-            Upload image <span className="align-center animate-blink">┃</span>
+          <h1 className="text-5xl font-extrabold tracking-tight shadow-white outline-none md:text-7xl">
+            Remove background <span className="align-center animate-blink">┃</span>
           </h1>
         </Button>
         <span className="-mt-7 block text-center text-grey-300">
           Drag and drop, paste from clipboard or{'  '}
           <Button excludeFromTabOrder className="-m-5 inline p-5" {...inputFileTriggerProps}>
-            click
+            click to upload an image
           </Button>
         </span>
       </motion.div>
