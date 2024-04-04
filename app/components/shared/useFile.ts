@@ -1,13 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { getImageDimensions } from '~shared/image';
-import { LRUCache } from '~shared/lru';
-
-const cache = new LRUCache<File, { size: { width: number; height: number }; url: string }>(10, {
-  key: (file) => `${file.name}-${file.size}`,
-  onEvict: (_, value) => {
-    URL.revokeObjectURL(value.url);
-  },
-});
 
 export const useFile = (initialState: File | null = null) => {
   const urlRef = useRef<string | undefined>(undefined);
@@ -34,25 +26,18 @@ export const useFile = (initialState: File | null = null) => {
         });
         urlRef.current = undefined;
       } else {
-        const cached = cache.get(file);
-        if (cached !== undefined) {
-          setSize(cached.size);
-          urlRef.current = cached.url;
-        } else {
-          const set = cache.set(file, {
-            size: await getImageDimensions(file),
-            url: URL.createObjectURL(file),
-          });
+        const size = await getImageDimensions(file);
+        const newUrl = URL.createObjectURL(file);
+        setSize(size);
+        urlRef.current = newUrl;
 
-          setSize(set.size);
-          urlRef.current = set.url;
-        }
+        console.log(size, newUrl);
       }
 
       setIsSetting(false);
     };
 
-    void compute();
+    compute();
 
     return () => {
       urlRef.current = undefined;

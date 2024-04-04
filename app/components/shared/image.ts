@@ -93,7 +93,7 @@ export const urlToFile = async (url: string) => {
 };
 
 export const blobToFile = async (blob: Blob, name = 'image.png') => {
-  return new File([blob], name);
+  return new File([blob], name, { type: 'image/png' });
 };
 
 export const uint8ToFile = async (blob: Uint8Array, name = 'image.png') => {

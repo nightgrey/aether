@@ -5,7 +5,7 @@ import { useBackgroundRemovalContext } from '~features/backgroundRemoval/useBack
 import { contain, toImageBitmap } from '~shared/image';
 import { MODEL_SIZE } from '~features/rembg';
 import { mergeRefs } from '@react-aria/utils';
-import { IS_DEV } from '~shared/platform';
+import { IS_DEV } from '~shared/env';
 
 interface CanvasProps extends React.ComponentPropsWithoutRef<typeof motion.canvas> {}
 
@@ -70,7 +70,7 @@ export const Canvas = React.forwardRef<React.ElementRef<'canvas'>, CanvasProps>(
   const test = (event) => {
     event?.preventDefault();
 
-    console.log(URL.createObjectURL(output.file!));
+    console.log(output, URL.createObjectURL(output.file!));
   };
 
   return (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { inference as originalInference, loadModel as originalLoadModel, isModelLoaded } from './inference';
+import { inference as originalInference } from './inference';
 import { useFile } from '~shared/useFile';
-import { imageDataToFile } from '~shared/image';
+import { blobToFile, getImageDimensions } from '~shared/image';
 
 export const useRembg = () => {
   const [isInferencing, setIsInferencing] = useState(false);
@@ -10,11 +10,12 @@ export const useRembg = () => {
 
   const inference = async (
     input: Parameters<typeof originalInference>[0],
-    type?: Parameters<typeof originalInference>[1],
+    type?: Parameters<typeof originalInference>[2],
   ) => {
     setIsInferencing(true);
 
-    const result = await originalInference(input, type);
+    const result = await originalInference(input, await getImageDimensions(input), type);
+    console.log(result);
 
     if (result.error != null) {
       setError(result.error);
@@ -23,7 +24,7 @@ export const useRembg = () => {
       setError(new Error('No output.'));
       setOutput(null);
     } else {
-      setOutput(await imageDataToFile(result.output));
+      setOutput(await blobToFile(result.output.blob));
       setError(null);
     }
 
@@ -32,18 +33,10 @@ export const useRembg = () => {
     return result;
   };
 
-  const loadModel = async (type: Parameters<typeof originalLoadModel>[0]) => {
-    setIsInferencing(true);
-    await originalLoadModel(type);
-    setIsInferencing(false);
-  };
-
   return [
     output,
     setOutput,
     inference,
-    loadModel,
-    isModelLoaded,
     {
       error,
       url,

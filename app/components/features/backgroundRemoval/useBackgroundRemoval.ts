@@ -95,7 +95,7 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
       });
     },
   });
-  const [output, setOutput, _inference, loadModel, isModelLoaded, outputMeta] = useRembg();
+  const [output, setOutput, _inference, outputMeta] = useRembg();
   const [upload, setUpload, uploadMeta] = useFile(initialValue);
 
   const inference = useCallback(
@@ -104,23 +104,17 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
         throw new Error('No input file.');
       }
 
-      // Note: Not always 100% reliable, but good enough for now.
-      const showLoadingModelToast = !isModelLoaded();
-      const loadingModelToast = showLoadingModelToast ? toast.loading(`Loading ${type} model ...`) : undefined;
-
-      await loadModel(type);
-      toast.dismiss(loadingModelToast);
-
       const inferenceToast = toast.loading('Crunching numbers ...', {
         description: `Depending on quality and device, this runs at least 15 seconds.`,
+        dismissible: true,
+        important: true,
       });
 
-      const result = await _inference(await createImageBitmap(upload), type);
+      const result = await _inference(upload, type);
       toast.dismiss(inferenceToast);
-
       return result;
     },
-    [_inference, isModelLoaded, loadModel, upload],
+    [_inference, upload],
   );
 
   const reset = () => {
@@ -148,22 +142,9 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
       event.preventDefault();
       const data = Object.fromEntries(new FormData(event.currentTarget));
 
-      const type = data.type as 'quantized' | 'full' | null;
+      const type = data.type as 'quantized' | 'full' | undefined;
 
-      if (!type) {
-        throw new Error('Invalid form data');
-      }
-
-      const result = await inference(type);
-
-      console.log(result);
-      if (result.error) {
-        toast.error('Oops! Something went wrong.', { description: result.error.message });
-      } else if (!result.output) {
-        toast.error('Oops! Something went wrong.', { description: 'No output.' });
-      } else {
-        toast.success('Wohoo! Background removed!', { description: 'If you find any issues, contact me on 𝕏.' });
-      }
+      await inference(type);
     },
   };
 

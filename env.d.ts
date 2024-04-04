@@ -22,6 +22,10 @@ declare global {
       },
       'deep'
     >;
+    ENV: {
+      URL: string;
+      VERCEL_URL: string;
+    };
   }
 }
 

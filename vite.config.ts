@@ -19,6 +19,7 @@ export default defineConfig({
     tsconfigPaths(),
   ],
   server: {
-    port: 3000,
+    strictPort: true,
+    port: process.env.PORT != null ? parseInt(process.env.PORT) : 3000,
   },
 });

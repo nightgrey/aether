@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Bar } from './components/Bar';
 import { Container } from '~core/ui/container';
 import { useBackgroundRemoval, BackgroundRemovalContext } from './useBackgroundRemoval';
 import useHotkey from '~features/shortcuts/useHotkey';
 import { Key } from 'ts-key-enum';
 import { Content } from './components/content';
-import { urlToFile } from '~shared/image';
 import { DropZoneContainer } from './components/DropZoneContainer';
 import { VisuallyHidden } from 'react-aria';
 import type { motion } from 'framer-motion';
+import { Form } from '@remix-run/react';
 
 export const BackgroundRemoval = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
