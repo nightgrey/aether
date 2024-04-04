@@ -8,8 +8,8 @@ tf.setWasmPaths('http://localhost:3000/tfjs/');
 
 /** Available model types. */
 const TYPE = {
-  full: '/rmbg/model.onnx',
-  quantized: '/rmbg/model_quantized.onnx',
+  full: 'https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model.onnx?download=true',
+  quantized: 'https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model_quantized.onnx?download=true',
 };
 
 /** RMBG-1.4 expects tensor/image sizes of 1024 * 1024. */
