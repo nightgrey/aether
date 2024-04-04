@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Lucide icons */
+.lucide {
+  color: inherit;
+  display: inline;
+  vertical-align: middle;
+}
+
+.lucide[class*="text-"] {
+  width: 1em;
+  height: 1em;
+}

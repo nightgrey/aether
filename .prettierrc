@@ -1,0 +1,15 @@
+{
+  "trailingComma": "all",
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "printWidth": 120,
+  "proseWrap": "always",
+  "experimentalTernaries": true,
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-classnames", "prettier-plugin-merge"],
+  "tailwindConfig": "./tailwind.config.ts",
+  "endingPosition": "relative",
+  "tailwindFunctions": ["cn", "tw", "cva"]
+}

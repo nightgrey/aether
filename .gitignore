@@ -4,3 +4,6 @@ node_modules
 /build
 /public/build
 .env
+
+# Too big for GitHub, `run bun run download-models` or see `scripts/download-models.ts`
+public/rmbg/*.onnx

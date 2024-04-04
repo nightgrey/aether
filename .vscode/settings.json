@@ -1,0 +1,12 @@
+{
+    "exportall.config.folderListener": [
+        "/components/features/rembg",
+        "/components/core/ImageUpload",
+        "/components/features/BackgroundRemoval/context",
+        "/components/features/shortcuts",
+        "/components/features/backgroundRemoval/components/content"
+    ],
+    "exportall.config.relExclusion": [
+        "/components/features/rembg/inference.old.ts"
+    ]
+}

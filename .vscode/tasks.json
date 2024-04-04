@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "bun",
+			"script": "dev",
+			"problemMatcher": [],
+			"presentation": {
+				"echo": true,
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"runOptions": {
+				"instanceLimit": 1,
+			},
+			"icon": {
+				"color": "terminal.ansiBlue",
+				"id": "run"
+			},
+			"label": "bun: dev",
+			"detail": "Run the dev script"
+		}
+	]
+}
