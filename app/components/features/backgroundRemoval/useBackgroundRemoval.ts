@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { createContext } from '~shared/createContext';
 import type React from 'react';
 import { useCallback } from 'react';
+
 const jpg = 'image/jpeg';
 const png = 'image/png';
 
@@ -61,6 +62,7 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
       const _file = await item.getFile();
       setUpload(_file);
       setOutput(null);
+      setRender(null);
     }
   };
 
@@ -88,6 +90,22 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
 
   const { clipboardProps } = useClipboard({
     onPaste: (items) => {
+      const isValid = items.every((item) => {
+        if (!isFileDropItem(item)) return false;
+
+        return acceptedFileTypes.includes(item.type);
+      });
+
+      if (!isValid) {
+        toast.error(`The image must be a ${acceptedFileTypes.join(' or ')}.`);
+        return;
+      }
+
+      if (items.length > 1) {
+        toast.error('Only one image at a time, sorry.');
+        return;
+      }
+
       onDrop({
         type: 'drop',
         items,
@@ -97,6 +115,8 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
       });
     },
   });
+
+  const [render, setRender, renderMeta] = useFile(null);
   const [output, setOutput, _inference, outputMeta] = useRembg();
   const [upload, setUpload, uploadMeta] = useFile(initialValue);
 
@@ -122,6 +142,7 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
   const reset = () => {
     setUpload(null);
     setOutput(null);
+    setRender(null);
   };
 
   const dropZoneProps: React.ComponentProps<'div'> = {
@@ -207,6 +228,10 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
         file: output,
         ...outputMeta,
       },
+      render: {
+        file: render,
+        ...renderMeta,
+      },
       hasUpload: !!upload && !uploadMeta.isSettling,
       hasOutput: !!output && !outputMeta.isInferencing,
       isEmpty: !upload && !output,
@@ -218,6 +243,7 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
       isDropTarget,
     },
     actions: {
+      setRender,
       setUpload,
       setOutput,
       inference,

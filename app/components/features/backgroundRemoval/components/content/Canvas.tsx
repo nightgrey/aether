@@ -2,18 +2,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '~core/ui/utils';
 import { useBackgroundRemovalContext } from '~features/backgroundRemoval/useBackgroundRemoval';
-import { contain, toImageBitmap } from '~shared/image';
+import { contain, imageDataToFile, toImageBitmap } from '~shared/image';
 import { MODEL_SIZE } from '~features/rembg';
 import { mergeRefs } from '@react-aria/utils';
 import { IS_DEV } from '~shared/env';
 
 interface CanvasProps extends React.ComponentPropsWithoutRef<typeof motion.canvas> {}
 
+// TODO: Fix/use original image size for export.
+const CANVAS_WIDTH = MODEL_SIZE.width;
+const CANVAS_HEIGHT = MODEL_SIZE.height;
+
 export const Canvas = React.forwardRef<React.ElementRef<'canvas'>, CanvasProps>(({ className, ...rest }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const {
     state: { upload, output, hasOutput, hasUpload },
+    actions: { setRender },
   } = useBackgroundRemovalContext();
 
   const [isRendering, setIsRendering] = useState(false);
@@ -23,10 +28,8 @@ export const Canvas = React.forwardRef<React.ElementRef<'canvas'>, CanvasProps>(
 
   const draw = async (source: File | ImageData, context: CanvasRenderingContext2D) => {
     const image = await toImageBitmap(source);
-    const canvasWidth = MODEL_SIZE.width;
-    const canvasHeight = MODEL_SIZE.height;
 
-    const { width, height, x, y } = contain(image, { width: canvasWidth, height: canvasHeight });
+    const { width, height, x, y } = contain(image, { width: CANVAS_WIDTH, height: CANVAS_HEIGHT });
     context.drawImage(image, x, y, width, height);
   };
 
@@ -46,6 +49,8 @@ export const Canvas = React.forwardRef<React.ElementRef<'canvas'>, CanvasProps>(
       // Upload, no output
       if (hasUpload && !hasOutput && !hasRenderedUpload) {
         await draw(upload.file!, context);
+        setRender(null);
+
         setHasRenderedUpload(true);
       }
 
@@ -58,6 +63,8 @@ export const Canvas = React.forwardRef<React.ElementRef<'canvas'>, CanvasProps>(
 
         await draw(upload.file!, context);
 
+        setRender(await imageDataToFile(context.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)));
+
         setHasRenderedOutput(true);
       }
 
@@ -65,7 +72,17 @@ export const Canvas = React.forwardRef<React.ElementRef<'canvas'>, CanvasProps>(
     };
 
     void run();
-  }, [canvasRef, hasOutput, hasRenderedOutput, hasRenderedUpload, hasUpload, isRendering, output.file, upload]);
+  }, [
+    canvasRef,
+    hasOutput,
+    hasRenderedOutput,
+    hasRenderedUpload,
+    hasUpload,
+    isRendering,
+    output.file,
+    setRender,
+    upload,
+  ]);
 
   const test = (event) => {
     event?.preventDefault();

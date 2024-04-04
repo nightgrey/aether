@@ -30,7 +30,7 @@ export const BackgroundRemoval = () => {
   });
 
   return (
-    <form tabIndex={-1} {...formProps} className="background-removal group h-full focus-visible:outline-none">
+    <form autoFocus tabIndex={-1} {...formProps} className="background-removal group h-full focus-visible:outline-none">
       <Container orientation="both" className="relative flex h-full flex-col pb-0">
         <BackgroundRemovalContext.Provider value={backgroundRemovalContext}>
           {/* Just some disagreement about the exact event shape... */}
@@ -43,7 +43,7 @@ export const BackgroundRemoval = () => {
           <VisuallyHidden>
             {/* Note: The input is only used for triggering the file picker. States are handled via `upload` and `setUpload`, only. */}
             <input ref={inputFileRef} {...inputFileProps} />
-            <button tabIndex={1} type="submit" {...dropButtonProps} ref={buttonRef} />
+            <button autoFocus tabIndex={1} type="submit" {...dropButtonProps} ref={buttonRef} />
           </VisuallyHidden>
         </BackgroundRemovalContext.Provider>
       </Container>
