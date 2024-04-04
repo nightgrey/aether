@@ -11,7 +11,7 @@ interface BarProps extends React.ComponentPropsWithoutRef<'div'> {}
 
 export const Bar = React.forwardRef<React.ElementRef<'div'>, BarProps>(({ className, children, ...rest }, ref) => {
   const {
-    state: { hasUpload: hasImage, isInferencing, isFinished, isEmpty },
+    state: { isInferencing, isFinished, isEmpty },
     actions: { triggerInputFile },
   } = useBackgroundRemovalContext();
 
@@ -20,7 +20,7 @@ export const Bar = React.forwardRef<React.ElementRef<'div'>, BarProps>(({ classN
       <div className="flex items-center justify-center space-x-10">
         <Button
           type={isEmpty ? 'button' : 'submit'}
-          isDisabled={!isEmpty ? isInferencing : false}
+          isDisabled={isInferencing}
           isLoading={isInferencing}
           onPress={(event) => {
             if (isEmpty) {
@@ -30,10 +30,10 @@ export const Bar = React.forwardRef<React.ElementRef<'div'>, BarProps>(({ classN
         >
           {isEmpty ? 'Upload image' : 'Remove background'}
         </Button>
-        <Button type="reset" variant="ghost" isDisabled={!isFinished}>
+        <Button type="reset" variant="ghost" isDisabled={!isFinished || isInferencing}>
           <RotateCcw />
         </Button>
-        <RadioGroup name="type" aria-labelledby="id" defaultValue="quantized">
+        <RadioGroup isDisabled={isInferencing} name="type" aria-labelledby="id" defaultValue="quantized">
           <Label>Quality</Label>
           <Radio value="quantized">Normal</Radio>
           <Radio value="full">High</Radio>

@@ -56,7 +56,6 @@ export interface UseBackgroundRemovalProps
 export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
   const {
     initialValue,
-    onSubmit,
     buttonRef,
     'aria-label': ariaLabel,
     acceptedFileTypes = [jpg, png],

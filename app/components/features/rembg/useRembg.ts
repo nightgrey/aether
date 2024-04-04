@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { inference as originalInference, loadModel, isModelLoaded } from './inference';
+import { inference as originalInference, loadModel as originalLoadModel, isModelLoaded } from './inference';
 import { useFile } from '~shared/useFile';
 import { imageDataToFile } from '~shared/image';
 
@@ -30,6 +30,12 @@ export const useRembg = () => {
     setIsInferencing(false);
 
     return result;
+  };
+
+  const loadModel = async (type: Parameters<typeof originalLoadModel>[0]) => {
+    setIsInferencing(true);
+    await originalLoadModel(type);
+    setIsInferencing(false);
   };
 
   return [
