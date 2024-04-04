@@ -12,4 +12,4 @@ Hey! This is Aether, a small web app that removes backgrounds from images with A
 
 ... and some sweat. Thanks to the authors of the libraries and tools used in this project!
 
-If you find issues, feel free to report them!
+The project is neither tested nor well commented, sorry about that. 😅
