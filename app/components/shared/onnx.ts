@@ -1,6 +1,7 @@
 import * as tf from './tf';
 import { type Tensor as OnnxTensor } from 'onnxruntime-web/wasm';
 import { env } from 'onnxruntime-web/wasm';
+import { IS_CLIENT } from '~shared/platform';
 export const toTf = async (tensor: OnnxTensor) => {
   const data = await tensor.getData();
 
@@ -12,12 +13,8 @@ export const toTf = async (tensor: OnnxTensor) => {
 
 // https://onnxruntime.ai/docs/api/js/interfaces/Env-1.html
 // https://github.com/microsoft/onnxruntime-inference-examples/blob/main/js/api-usage_ort-env-flags/README.md
-env.wasm.proxy = true;
-env.wasm.wasmPaths = {
-  'ort-wasm.wasm': 'http://localhost:3000/onnx/ort-wasm.wasm',
-  'ort-wasm-simd.wasm': 'http://localhost:3000/onnx/ort-wasm-simd.wasm',
-  'ort-wasm-threaded.wasm': 'http://localhost:3000/onnx/ort-wasm-threaded.wasm',
-  'ort-wasm-simd-threaded.wasm': 'http://localhost:3000/onnx/ort-wasm-simd-threaded.wasm',
-};
-
+if (IS_CLIENT) {
+  env.wasm.proxy = true;
+  env.wasm.wasmPaths = `${window.location.origin}/onnx/`;
+}
 export { Tensor, InferenceSession, env } from 'onnxruntime-web/wasm';
