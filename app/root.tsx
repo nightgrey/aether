@@ -7,6 +7,7 @@ import Layout from '~core/Layout';
 import { BackgroundRemoval } from '~features/backgroundRemoval';
 import { Toaster } from '~core/ui/sonner';
 import { env } from '~shared/env';
+import { Analytics } from '@vercel/analytics/react';
 
 export const links: LinksFunction = () => [...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : [])];
 
@@ -72,6 +73,7 @@ export const HydrateFallback = () => {
             __html: `window.ENV = ${JSON.stringify(env)}`,
           }}
         />
+        <Analytics />
       </body>
     </html>
   );

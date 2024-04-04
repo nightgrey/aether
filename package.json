@@ -23,6 +23,7 @@
     "@tensorflow/tfjs-backend-wasm": "^4.17.0",
     "@types/bun": "^1.0.12",
     "@types/is-hotkey": "^0.1.10",
+    "@vercel/analytics": "^1.2.2",
     "@vercel/remix": "^2.8.1-patch.2",
     "@xenova/transformers": "^2.16.1",
     "autoprefixer": "^10.4.19",
