@@ -72,6 +72,9 @@ const config = {
       mono: "ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;",
     },
     extend: {
+      screens: {
+        pointer: { raw: '(pointer: fine)' },
+      },
       fontSize: {
         '2xs': '0.625rem',
         '3xs': '0.5rem',

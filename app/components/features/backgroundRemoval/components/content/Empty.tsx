@@ -11,10 +11,11 @@ export const Empty = React.forwardRef<React.ElementRef<typeof motion.div>, Empty
     const {
       props: { inputFileTriggerProps },
     } = useBackgroundRemovalContext();
+
     return (
       <motion.div className={cn('absolute', className)} {...rest} ref={ref}>
         <Button
-          className="p-10 outline-none drop-shadow-glow transition-all hover:drop-shadow-glow-xl focus:drop-shadow-glow-xl"
+          className="pointer:hover:drop-shadow-glow-xl pointer:focus:drop-shadow-glow-xl p-10 outline-none drop-shadow-glow transition-all"
           {...inputFileTriggerProps}
           type="button"
         >
