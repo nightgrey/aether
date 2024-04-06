@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { getImageDimensions } from '~shared/image';
+import { getImageDimensions, type ImageSize } from '~shared/image';
 
 export const useFile = (initialState: File | null = null) => {
   const urlRef = useRef<string | undefined>(undefined);
@@ -7,10 +7,7 @@ export const useFile = (initialState: File | null = null) => {
   const [isSettling, setIsSetting] = useState(false);
 
   const [file, setFile] = useState<File | null>(initialState);
-  const [size, setSize] = useState<{
-    width: number | undefined;
-    height: number | undefined;
-  }>({
+  const [size, setSize] = useState<Partial<ImageSize>>({
     width: undefined,
     height: undefined,
   });

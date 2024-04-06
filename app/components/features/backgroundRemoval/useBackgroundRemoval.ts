@@ -16,6 +16,8 @@ import { toast } from 'sonner';
 import { createContext } from '~shared/createContext';
 import type React from 'react';
 import { useCallback } from 'react';
+import { getImageDimensions } from '~shared/lightning-image';
+import { calculateRatio, findNearestNormalAspectRatio } from '~shared/image';
 
 const jpg = 'image/jpeg';
 const png = 'image/png';
@@ -60,6 +62,19 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
 
     if (item) {
       const _file = await item.getFile();
+
+      const dimensions = await getImageDimensions(_file);
+      const ratio = calculateRatio(dimensions);
+
+      if (ratio > 1.3) {
+        const nearestNormalAspectRatio = findNearestNormalAspectRatio(dimensions);
+
+        toast.info('Tip: Use an 1:1 aspect ratio', {
+          description: `Your image has an aspect ratio of ~ ${nearestNormalAspectRatio}. It will work, but if you have masking issues, try cropping to ~ 1:1.`,
+          duration: 15000,
+        });
+      }
+
       setUpload(_file);
       setOutput(null);
       setRender(null);
@@ -128,7 +143,6 @@ export const useBackgroundRemoval = (props: UseBackgroundRemovalProps) => {
 
       const inferenceToast = toast.loading('Crunching numbers ...', {
         description: `Depending on quality and device, this runs at least 15 seconds.`,
-        dismissible: true,
         important: true,
       });
 

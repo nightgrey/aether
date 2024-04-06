@@ -116,12 +116,12 @@ export const bufferToFile = async (buffer: Buffer, options: FilePropertyBag, nam
   return new File([buffer], name, options);
 };
 
-interface Size {
+export interface ImageSize {
   width: number;
   height: number;
 }
 
-export const contain = (input: Size, desired: Size) => {
+export const contain = (input: ImageSize, desired: ImageSize) => {
   const { width, height } = input;
   const aspectRatio = width / height;
 
@@ -146,6 +146,109 @@ export const contain = (input: Size, desired: Size) => {
     x,
     y,
   };
+};
+
+const findGreatestCommonDivisor = (a: number, b: number): number => {
+  let t;
+  while (b !== 0) {
+    t = a % b;
+    a = b;
+    b = t;
+  }
+  return a;
+};
+
+const findDividendAndDivisor = (a: number, b: number): [dividend: number, divisor: number] => {
+  if (a > b) return [a, b];
+  return [b, a];
+};
+
+export const calculateRatio = (of: ImageSize): number => {
+  const { width, height } = of;
+
+  if (width === height) return 1;
+
+  let dividend = 0;
+  let divisor = 0;
+
+  if (height > width) {
+    dividend = height;
+    divisor = width;
+  } else if (width > height) {
+    dividend = width;
+    divisor = height;
+  }
+
+  return dividend / divisor;
+};
+
+export const calculateAspectRatio = (of: ImageSize): [horizontalRatio: number, verticalRatio: number] => {
+  const { width, height } = of;
+
+  if (width === height) return [1, 1];
+
+  const [dividend, divisor] = findDividendAndDivisor(width, height);
+  const greatestCommonDivisor = findGreatestCommonDivisor(dividend, divisor);
+
+  return [width / greatestCommonDivisor, height / greatestCommonDivisor];
+};
+
+/**
+ * Generates all normal aspect ratios
+ *
+ * @see https://codepen.io/malthemillthers/pen/EyPELe
+ */
+const generateNormalRatios = (maxHorizontalRatio: number = 16, maxVerticalRatio: number = 16) => {
+  const horizontalRatios = Array.from({ length: maxHorizontalRatio }, (_, i) => i + 1);
+  const verticalRatios = Array.from({ length: maxVerticalRatio }, (_, i) => i + 1);
+  const registeredRatios: Record<string, boolean> = {};
+  const ratios: Record<`${number}:${number}`, number> = {};
+
+  for (let i = 0; i < horizontalRatios.length; i++) {
+    const horizontalRatio = horizontalRatios[i];
+    for (let j = 0; j < verticalRatios.length; j++) {
+      const verticalRatio = verticalRatios[j];
+      const ratio = (horizontalRatio * 100) / (verticalRatio * 100);
+
+      if (!registeredRatios[ratio]) {
+        registeredRatios[ratio] = true;
+
+        ratios[`${horizontalRatio}:${verticalRatio}`] = ratio;
+      }
+    }
+  }
+
+  return ratios;
+};
+
+export const normalRatios = generateNormalRatios();
+
+/**
+ * Finds the nearest normal aspect ratio for the provided size
+ * @see https://codepen.io/malthemillthers/pen/EyPELe
+ */
+export const findNearestNormalAspectRatio = function (size: ImageSize, ratios = normalRatios) {
+  const { width, height } = size;
+  const ratio = (width * 100) / (height * 100);
+
+  let match;
+  let minDifference = Infinity;
+
+  for (const key in ratios) {
+    const currentRatio = ratios[key as keyof typeof ratios];
+    const difference = Math.abs(ratio - currentRatio);
+
+    if (
+      difference < minDifference ||
+      (currentRatio <= ratio && difference === minDifference) ||
+      (currentRatio >= ratio && difference === minDifference)
+    ) {
+      match = key;
+      minDifference = difference;
+    }
+  }
+
+  return match;
 };
 
 export { getImageDimensions, getImageFormat, getInformation } from './lightning-image';
