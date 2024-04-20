@@ -1,5 +1,6 @@
 {
   "name": "aether",
+  "license": "MIT",
   "private": true,
   "sideEffects": false,
   "type": "module",
